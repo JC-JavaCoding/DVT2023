@@ -4,6 +4,9 @@
  */
 package UI;
 
+import java.awt.Color;
+import java.awt.Component;
+
 /**
  *
  * @author Jcj
@@ -35,6 +38,7 @@ public class AddTeacherScreen extends javax.swing.JFrame
         jSlider1 = new javax.swing.JSlider();
         jProgressBar1 = new javax.swing.JProgressBar();
         jSpinner1 = new javax.swing.JSpinner();
+
         jButton1 = new javax.swing.JButton();
         screenTitleLabel = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
