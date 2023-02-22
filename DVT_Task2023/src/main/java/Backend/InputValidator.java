@@ -5,6 +5,9 @@
 package Backend;
 
 import java.lang.Character;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 /**
  *
@@ -26,37 +29,85 @@ public class  InputValidator
     }
     public static String checkDateValidity(String inputDate)
     {
-        Scanner dateFormatScanner = new Scanner(inputDate).useDelimiter("/");
         
-        int numTokens = 0;
-        while (dateFormatScanner.hasNext())
-        {
-            numTokens ++;
-            String token = dateFormatScanner.next();
-            switch (numTokens)
-            {
-                case 1 ->
-                {
-                    if (token.length() != 2) return "Day must be in format \"dd\", eg '06'";
-                    if (!Character.isDigit(token.charAt(0)) && !Character.isDigit(token.charAt(1))) return "Day must consist of numbers ONLY";
-                }
-                case 2 ->
-                {
-                    if (token.length() != 2) return "Month must be in format \"MM\", eg '06'";
-                    if (!Character.isDigit(token.charAt(0)) && !Character.isDigit(token.charAt(1))) return "Month must consist of numbers ONLY";
-                }
-                case 3 ->
-                {
-                    if (token.length() != 4) return "Year must be in format \"yyyy\", eg '2005'";
-                    if (!Character.isDigit(token.charAt(0)) && !Character.isDigit(token.charAt(1)) && !Character.isDigit(token.charAt(2)) && !Character.isDigit(token.charAt(3))) return "Year must consist of numbers ONLY";
-                }
-                default ->
-                {
-                        return "You have too many parts to your date";
-                }
-            }
-        }
         
         return "";
+    }
+    public static boolean hasValue(String input)
+    {
+        return false;
+    }
+    public static boolean isCorrectDataType(String inStr, String dataType)
+    {
+        if (dataType.equalsIgnoreCase("Integer"))
+        {
+            try 
+            {
+                int num = Integer.parseInt(inStr);
+            }catch(NumberFormatException e)
+            {
+                return false;
+            }
+        }else if (dataType.equalsIgnoreCase("String"))
+        {
+            if (inStr.equals("true") || inStr.equals("false")) return false;
+            
+            for (char c : inStr.toCharArray())
+            {
+                if(!Character.isAlphabetic(c)) return false;
+            }
+        }
+        return true;
+    }
+    public static boolean rangeCheck(String inStr, int min, int max)
+    {
+        
+        return false;
+    }
+    public static boolean isFormatted(String inputDate, String pattern)
+    {
+        try
+        {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern);
+            LocalDate inDate = LocalDate.parse(inputDate, dtf);//parse(inputDate);
+        }catch(DateTimeException e) 
+        {
+            return false;
+        }
+//        Scanner dateFormatScanner = new Scanner(inputDate).useDelimiter("/");
+//        
+//        int numTokens = 0;
+//        while (dateFormatScanner.hasNext())
+//        {
+//            numTokens ++;
+//            String token = dateFormatScanner.next();
+//            switch (numTokens)
+//            {
+//                case 1 ->
+//                {
+//                    if (token.length() != 2) return false;
+//                    if (!Character.isDigit(token.charAt(0)) && !Character.isDigit(token.charAt(1))) return false;
+//                }
+//                case 2 ->
+//                {
+//                    if (token.length() != 2) return false;
+//                    if (!Character.isDigit(token.charAt(0)) && !Character.isDigit(token.charAt(1))) return false;
+//                }
+//                case 3 ->
+//                {
+//                    if (token.length() != 4) return false;
+//                    if (!Character.isDigit(token.charAt(0)) && !Character.isDigit(token.charAt(1)) && !Character.isDigit(token.charAt(2)) && !Character.isDigit(token.charAt(3))) return false;
+//                }
+//                default ->
+//                {
+//                        return false;
+//                }
+//            }
+//        }
+        return true;
+    }
+    public static boolean isLength(String input, int maxLength)
+    {
+        return input.length() <= maxLength;
     }
 }
