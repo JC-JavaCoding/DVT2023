@@ -78,10 +78,16 @@
             </Property>
             <Property name="columns" type="int" value="3"/>
             <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="dd/MM/y" subtype="-1" type="1"/>
+              <Format format="dd/MM/yyyy" subtype="-1" type="1"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Write in format &quot;DD/MM/YYYY&quot;"/>
+            <Property name="toolTipText" type="java.lang.String" value="Write in format &quot;dd/MM/YYYY&quot;"/>
+            <Property name="inputVerifier" type="javax.swing.InputVerifier" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="new InputValidator()" type="code"/>
+            </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="birthdayFormattedFieldKeyPressed"/>
+          </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="165" y="146" width="239" height="-1"/>
@@ -219,7 +225,6 @@
             <Property name="text" type="java.lang.String" value="e.g. Clifton Lloyd Bartholomew"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="fullnameFieldMouseClicked"/>
             <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="fullnameFieldKeyPressed"/>
           </Events>
           <Constraints>
@@ -324,7 +329,6 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="ff" type="rgb"/>
             </Property>
-            <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Constraints>

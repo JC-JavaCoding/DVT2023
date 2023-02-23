@@ -4,8 +4,10 @@
  */
 package UI;
 
+import Backend.InputValidator;
 import java.awt.Color;
 import java.awt.Component;
+import java.util.ArrayList;
 
 /**
  *
@@ -78,8 +80,16 @@ public class AddTeacherForm extends javax.swing.JFrame
 
         birthdayFormattedField.setBackground(jPanel1.getBackground());
         birthdayFormattedField.setColumns(3);
-        birthdayFormattedField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/y"))));
-        birthdayFormattedField.setToolTipText("Write in format \"DD/MM/YYYY\"");
+        birthdayFormattedField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+        birthdayFormattedField.setToolTipText("Write in format \"dd/MM/YYYY\"");
+        birthdayFormattedField.setInputVerifier(new InputValidator());
+        birthdayFormattedField.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
+                birthdayFormattedFieldKeyPressed(evt);
+            }
+        });
         jPanel1.add(birthdayFormattedField, new org.netbeans.lib.awtextra.AbsoluteConstraints(165, 146, 239, -1));
 
         numGradesSlider.setForeground(new java.awt.Color(102, 153, 255));
@@ -127,13 +137,6 @@ public class AddTeacherForm extends javax.swing.JFrame
 
         fullnameField.setBackground(jPanel1.getBackground());
         fullnameField.setText("e.g. Clifton Lloyd Bartholomew");
-        fullnameField.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
-                fullnameFieldMouseClicked(evt);
-            }
-        });
         fullnameField.addKeyListener(new java.awt.event.KeyAdapter()
         {
             public void keyPressed(java.awt.event.KeyEvent evt)
@@ -195,7 +198,6 @@ public class AddTeacherForm extends javax.swing.JFrame
 
         name_warningLabel.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         name_warningLabel.setForeground(new java.awt.Color(255, 0, 0));
-        name_warningLabel.setEnabled(false);
         name_warningLabel.setFocusable(false);
         jPanel1.add(name_warningLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, 230, 20));
 
@@ -208,12 +210,6 @@ public class AddTeacherForm extends javax.swing.JFrame
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void fullnameFieldMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_fullnameFieldMouseClicked
-    {//GEN-HEADEREND:event_fullnameFieldMouseClicked
-        // TODO add your handling code here:
-        fullnameField.setText("");
-    }//GEN-LAST:event_fullnameFieldMouseClicked
-
     private void jPanel1KeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jPanel1KeyPressed
     {//GEN-HEADEREND:event_jPanel1KeyPressed
         // TODO add your handling code here:
@@ -222,10 +218,45 @@ public class AddTeacherForm extends javax.swing.JFrame
 
     private void fullnameFieldKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_fullnameFieldKeyPressed
     {//GEN-HEADEREND:event_fullnameFieldKeyPressed
-        // TODO add your handling code here:
-        correctInputsProgressBar.setValue(correctInputsProgressBar.getValue()+1);
+        // TODO add your handling code here:'
+        String fullname = fullnameField.getText();
+        
+        if (InputValidator.isLength(fullname, 0, 100)
+                && InputValidator.isFormattedName(fullname)) 
+        {
+            nameCorrect = true;
+        }else {
+            name_warningLabel.setText("Invalid");
+            nameCorrect = false;
+        }
+        
+         updateProgressBar();
     }//GEN-LAST:event_fullnameFieldKeyPressed
 
+    private void birthdayFormattedFieldKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_birthdayFormattedFieldKeyPressed
+    {//GEN-HEADEREND:event_birthdayFormattedFieldKeyPressed
+        // TODO add your handling code here:
+        String birthdayStr = birthdayFormattedField.getText();
+        if (InputValidator.isFormattedDate(birthdayStr, "dd/MM/YYYY")
+                && InputValidator.isValidAge(birthdayStr, birthdayStr)) birthdayCorrect = true;
+        else birthdayCorrect = false;
+        
+        updateProgressBar();
+        
+    }//GEN-LAST:event_birthdayFormattedFieldKeyPressed
+    public void updateProgressBar()
+    {
+        int numCorrect = 2;
+        
+        boolean [] varArray = {nameCorrect, birthdayCorrect, extraMuralCorrect};
+        
+        for (boolean b : varArray) 
+        {
+            if (b) numCorrect++;
+        }
+        
+        correctInputsProgressBar.setValue(numCorrect);
+    }
     /**
      * @param args the command line arguments
      */
@@ -268,6 +299,9 @@ public class AddTeacherForm extends javax.swing.JFrame
         });
     }
 
+    public boolean birthdayCorrect;
+    public boolean extraMuralCorrect;
+    public boolean nameCorrect;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFormattedTextField birthdayFormattedField;
     private javax.swing.JLabel birthdayLabel;
