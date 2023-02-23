@@ -37,7 +37,6 @@ public class AddTeacherForm extends javax.swing.JFrame
         jLabel8 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         registerClassToggleButton = new javax.swing.JToggleButton();
-        birthdayFormattedField = new javax.swing.JFormattedTextField();
         numGradesSlider = new javax.swing.JSlider();
         correctInputsProgressBar = new javax.swing.JProgressBar();
         extramuralSpinner = new javax.swing.JSpinner();
@@ -55,6 +54,8 @@ public class AddTeacherForm extends javax.swing.JFrame
         fullnameLabel = new javax.swing.JLabel();
         name_warningLabel = new javax.swing.JLabel();
         birthday_warningLabel = new javax.swing.JLabel();
+        birthdayField = new javax.swing.JTextField();
+        extraM_WarningLabel = new javax.swing.JLabel();
 
         jLabel8.setText("jLabel8");
 
@@ -78,20 +79,6 @@ public class AddTeacherForm extends javax.swing.JFrame
         registerClassToggleButton.setRolloverEnabled(false);
         jPanel1.add(registerClassToggleButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 260, 110, 30));
 
-        birthdayFormattedField.setBackground(jPanel1.getBackground());
-        birthdayFormattedField.setColumns(3);
-        birthdayFormattedField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
-        birthdayFormattedField.setToolTipText("Write in format \"dd/MM/YYYY\"");
-        birthdayFormattedField.setInputVerifier(new InputValidator());
-        birthdayFormattedField.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            public void keyPressed(java.awt.event.KeyEvent evt)
-            {
-                birthdayFormattedFieldKeyPressed(evt);
-            }
-        });
-        jPanel1.add(birthdayFormattedField, new org.netbeans.lib.awtextra.AbsoluteConstraints(165, 146, 239, -1));
-
         numGradesSlider.setForeground(new java.awt.Color(102, 153, 255));
         numGradesSlider.setMajorTickSpacing(1);
         numGradesSlider.setMaximum(5);
@@ -110,8 +97,23 @@ public class AddTeacherForm extends javax.swing.JFrame
         correctInputsProgressBar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 102), 1, true));
         jPanel1.add(correctInputsProgressBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 330, 230, 20));
 
+        extramuralSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 10, 1));
         extramuralSpinner.setOpaque(true);
-        jPanel1.add(extramuralSpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 260, -1, 30));
+        extramuralSpinner.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                extramuralSpinnerMouseClicked(evt);
+            }
+        });
+        extramuralSpinner.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
+                extramuralSpinnerKeyPressed(evt);
+            }
+        });
+        jPanel1.add(extramuralSpinner, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 260, 70, 30));
 
         submitButton.setBackground(new java.awt.Color(0, 51, 102));
         submitButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -144,7 +146,7 @@ public class AddTeacherForm extends javax.swing.JFrame
                 fullnameFieldKeyPressed(evt);
             }
         });
-        jPanel1.add(fullnameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(165, 85, 239, -1));
+        jPanel1.add(fullnameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 90, 230, -1));
 
         jPanel2.setBackground(new java.awt.Color(0, 51, 102));
 
@@ -182,10 +184,10 @@ public class AddTeacherForm extends javax.swing.JFrame
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(47, 47, 47)
-                .addComponent(fullnameLabel)
-                .addGap(43, 43, 43)
-                .addComponent(birthdayLabel)
-                .addGap(40, 40, 40)
+                .addComponent(fullnameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(birthdayLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
                 .addComponent(numGradesLabel)
                 .addGap(43, 43, 43)
                 .addComponent(extramuralsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -198,12 +200,33 @@ public class AddTeacherForm extends javax.swing.JFrame
 
         name_warningLabel.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         name_warningLabel.setForeground(new java.awt.Color(255, 0, 0));
+        name_warningLabel.setText("Invalid");
         name_warningLabel.setFocusable(false);
         jPanel1.add(name_warningLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, 230, 20));
 
         birthday_warningLabel.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        birthday_warningLabel.setForeground(new java.awt.Color(204, 0, 0));
+        birthday_warningLabel.setForeground(java.awt.Color.red);
+        birthday_warningLabel.setText("Invalid");
         jPanel1.add(birthday_warningLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 120, 230, 20));
+
+        birthdayField.setBackground(jPanel1.getBackground());
+        birthdayField.setText("dd/MM/YYYY");
+        birthdayField.setToolTipText("Enter in format \"dd/MM/YYYY\"");
+        birthdayField.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
+                birthdayFieldKeyPressed(evt);
+            }
+        });
+        jPanel1.add(birthdayField, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 150, 230, -1));
+
+        extraM_WarningLabel.setBackground(java.awt.Color.red);
+        extraM_WarningLabel.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        extraM_WarningLabel.setForeground(java.awt.Color.red);
+        extraM_WarningLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        extraM_WarningLabel.setText("Invalid");
+        jPanel1.add(extraM_WarningLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 290, 70, 20));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 430));
 
@@ -225,25 +248,65 @@ public class AddTeacherForm extends javax.swing.JFrame
                 && InputValidator.isFormattedName(fullname)) 
         {
             nameCorrect = true;
+            name_warningLabel.setText("Valid");
+            name_warningLabel.setForeground(Color.GREEN);
         }else {
             name_warningLabel.setText("Invalid");
+            name_warningLabel.setForeground(Color.RED);
             nameCorrect = false;
         }
         
          updateProgressBar();
     }//GEN-LAST:event_fullnameFieldKeyPressed
 
-    private void birthdayFormattedFieldKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_birthdayFormattedFieldKeyPressed
-    {//GEN-HEADEREND:event_birthdayFormattedFieldKeyPressed
+    private void birthdayFieldKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_birthdayFieldKeyPressed
+    {//GEN-HEADEREND:event_birthdayFieldKeyPressed
         // TODO add your handling code here:
-        String birthdayStr = birthdayFormattedField.getText();
-        if (InputValidator.isFormattedDate(birthdayStr, "dd/MM/YYYY")
-                && InputValidator.isValidAge(birthdayStr, birthdayStr)) birthdayCorrect = true;
-        else birthdayCorrect = false;
+        String birthdayStr = birthdayField.getText();
         
+        if (InputValidator.isFormattedDate(birthdayStr, "dd/MM/yyyy") 
+                && InputValidator.isValidAge(birthdayStr, "dd/MM/yyyy"))
+        {
+            birthdayCorrect = true;
+            birthday_warningLabel.setText("Valid");
+            birthday_warningLabel.setForeground(Color.GREEN);
+        }else 
+        {
+            birthdayCorrect = false;
+            birthday_warningLabel.setText("Valid");
+            birthday_warningLabel.setForeground(Color.RED);
+        }
         updateProgressBar();
-        
-    }//GEN-LAST:event_birthdayFormattedFieldKeyPressed
+    }//GEN-LAST:event_birthdayFieldKeyPressed
+
+    private void extramuralSpinnerKeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_extramuralSpinnerKeyPressed
+    {//GEN-HEADEREND:event_extramuralSpinnerKeyPressed
+        // TODO add your handling code here:
+        checkEMValidity();
+    }//GEN-LAST:event_extramuralSpinnerKeyPressed
+    private void checkEMValidity()
+    {
+        String numExtraMStr = (String) extramuralSpinner.getValue();
+        if (InputValidator.isCorrectDataType(numExtraMStr, "Integer"))
+        {
+            System.out.println("EMs Valid ");
+            extraMuralCorrect = true;
+            extraM_WarningLabel.setText("Valid");
+            extraM_WarningLabel.setForeground(Color.GREEN);
+        }else{
+            System.out.println("EMs Invalid ");
+            extraMuralCorrect = false;
+            extraM_WarningLabel.setText("Invalid");
+            extraM_WarningLabel.setForeground(Color.RED);
+        }
+        updateProgressBar();
+    }
+    private void extramuralSpinnerMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_extramuralSpinnerMouseClicked
+    {//GEN-HEADEREND:event_extramuralSpinnerMouseClicked
+        // TODO add your handling code here:
+        checkEMValidity();
+        System.out.println("Click");
+    }//GEN-LAST:event_extramuralSpinnerMouseClicked
     public void updateProgressBar()
     {
         int numCorrect = 2;
@@ -303,11 +366,12 @@ public class AddTeacherForm extends javax.swing.JFrame
     public boolean extraMuralCorrect;
     public boolean nameCorrect;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JFormattedTextField birthdayFormattedField;
+    private javax.swing.JTextField birthdayField;
     private javax.swing.JLabel birthdayLabel;
     private javax.swing.JLabel birthday_warningLabel;
     private javax.swing.JLabel correctInputsLabel;
     private javax.swing.JProgressBar correctInputsProgressBar;
+    private javax.swing.JLabel extraM_WarningLabel;
     private javax.swing.JSpinner extramuralSpinner;
     private javax.swing.JLabel extramuralsLabel;
     private javax.swing.JTextField fullnameField;

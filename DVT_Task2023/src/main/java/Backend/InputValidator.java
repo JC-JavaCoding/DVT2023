@@ -66,16 +66,20 @@ public class  InputValidator extends InputVerifier
     }
     public static boolean rangeCheck(String inStr, int min, int max)
     {
-        
-        return false;
+        return (inStr.length() <= max && inStr.length() >= min);
     }
     public static boolean isFormattedName(String nameIn)
     {
+        //should have space & capital first name and last name
+        boolean hasSpace = false;
+        boolean formatted = false;
         for (char c : nameIn.toCharArray())
         {
-            if (Character.isSpaceChar(c)) return true;
+            if (Character.isSpaceChar(c)) hasSpace = true;
         }
-        return false;
+        if ( (int) nameIn.charAt(0) <= 90 && (int) nameIn.charAt(0) >= 65 && hasSpace) formatted = true;
+        else formatted = false;
+        return formatted;
     }
     public static boolean isFormattedDate(String inputDate, String pattern)
     {
@@ -86,6 +90,7 @@ public class  InputValidator extends InputVerifier
             
         }catch(DateTimeException e) 
         {
+            e.printStackTrace();
             return false;
         }
 
